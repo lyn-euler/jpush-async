@@ -1,6 +1,6 @@
 {
 	"name": "@lyn/jpush",
-	"version": "4.1.0",
+	"version": "0.1.0",
 	"description": "JPush's officially supported Node.js client library.",
 	"main": "dist/index.js",
 	"scripts": {
