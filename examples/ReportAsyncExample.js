@@ -1,4 +1,4 @@
-var JPush = require("../index.js").JPushAsync;
+var JPush = require("../dist/index.js").JPushAsync;
 var Conf = require("./Conf.js");
 
 var client = JPush.buildClient(Conf.appKey, Conf.masterSecret);

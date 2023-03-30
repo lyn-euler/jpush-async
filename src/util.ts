@@ -1,14 +1,11 @@
 /* extend start */
-var extend
-var _extend
-var _isObject
 
-_isObject = function (o) {
+const _isObject = function (o: any) {
   return Object.prototype.toString.call(o) === '[object Object]'
 }
 
-_extend = function self (destination, source) {
-  var property
+const _extend = function self(destination: any, source: any) {
+  let property
   for (property in destination) {
     if (destination.hasOwnProperty(property)) {
       // 若 destination[property] 和 source[property] 都是对象，则递归。
@@ -24,10 +21,10 @@ _extend = function self (destination, source) {
   }
 }
 
-extend = function () {
-  var arr = arguments
-  var result = {}
-  var i
+export const extend = function (payload: any, opts: any) {
+  let arr = arguments
+  let result = {}
+  let i
 
   if (!arr.length) {
     return {}
@@ -43,13 +40,11 @@ extend = function () {
   return result
 }
 
-exports.extend = extend
 
 /* extend end */
-
-exports.isEmptyObject = function (obj) {
-    for (var t in obj) {
-      return !1
-    }
-    return !0
+export const isEmptyObject = function (obj: any) {
+  for (let t in obj) {
+    return false
   }
+  return true
+}

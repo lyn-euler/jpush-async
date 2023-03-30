@@ -1,4 +1,4 @@
-var JPush = require('../index').JPush
+var JPush = require('../dist/index').JPush
 var Base = require('./BaseTest')
 var assert = require('assert')
 
