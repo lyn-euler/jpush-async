@@ -1,6 +1,6 @@
 {
-	"name": "@lyzz/jpush",
-	"version": "0.1.0",
+	"name": "@dian/jpush",
+	"version": "0.1.0.alpha.0",
 	"description": "JPush's officially supported Node.js client library.",
 	"main": "dist/index.js",
 	"scripts": {
@@ -17,7 +17,7 @@
 		"push",
 		"极光推送"
 	],
-	"author": "lyzz",
+	"author": "ly0u",
 	"license": "MIT",
 	"dependencies": {
 		"debug": "2.6.9",
