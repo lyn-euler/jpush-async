@@ -1,5 +1,5 @@
 {
-	"name": "jpush-async",
+	"name": "@lyn/jpush",
 	"version": "4.1.0",
 	"description": "JPush's officially supported Node.js client library.",
 	"main": "dist/index.js",
