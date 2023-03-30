@@ -1,8 +1,9 @@
 {
 	"name": "@dian/jpush",
-	"version": "0.1.0-alpha.1",
+	"version": "0.1.0-alpha.2",
 	"description": "JPush's officially supported Node.js client library.",
 	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
 	"scripts": {
 		"build": "tsc",
 		"test": "npm run build && mocha -t 50000 --reporter spec",
