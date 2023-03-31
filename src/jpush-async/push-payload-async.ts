@@ -220,22 +220,13 @@ export class PushPayload {
     }
   }
 
-  setNotification() {
-    if (arguments.length < 1) {
-      throw new InvalidArgumentError('Invalid notification')
+  setNotification(alert: string, ...payloads: Record<string, unknown>[]) {
+    let notification: any = { alert }
+
+    for (const payload of payloads) {
+      notification = extend(notification, payload)
     }
-    let notification: any = {}
-    let offset = 0
-    if (typeof arguments[0] === 'string') {
-      notification['alert'] = arguments[0]
-      offset = 1
-    }
-    for (; offset < arguments.length; offset++) {
-      if (typeof arguments[offset] !== 'object') {
-        throw new InvalidArgumentError('Invalid notification argument at index ' + offset)
-      }
-      notification = extend(notification, arguments[offset])
-    }
+
     this.payload = extend(this.payload, {
       'notification': notification
     })

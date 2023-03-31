@@ -7,7 +7,7 @@ export const ALL = 'all'
 const VALID_DEVICE_TYPES = ['android', 'ios', 'winphone']
 const MIN_SENDNO = 100000
 const MAX_SENDNO = 2147483647
-
+type ValidDeviceType = 'android' | 'ios' | 'winphone'
 function generateSendno() {
   return (MIN_SENDNO + Math.round(Math.random() * (MAX_SENDNO - MIN_SENDNO)))
 }
@@ -30,11 +30,11 @@ export class PushPayload {
     return this
   }
 
-  buildAudience(args: any, title: string) {
+  buildAudience(args: any, title: string): string[] {
     if (args.length < 1) {
       throw new InvalidArgumentError('Should be set at least one ' + title)
     }
-    let payload: unknown[] = []
+    let payload: string[] = []
     let i
     for (let i = 0; i < args.length; i++) {
       if (typeof args[i] === 'string') {
@@ -50,59 +50,11 @@ export class PushPayload {
     return payload
   }
 
-  setAudience() {
-    if (arguments.length < 1) {
-      throw new InvalidArgumentError("audience's args cannot all be null")
-    }
-    let audience: any, i: number
-    if (arguments.length === 1 && arguments[0] === ALL) {
-      audience = ALL
-    } else if (arguments.length === 1 && typeof arguments[0] === 'object') {
-      audience = {}
-      for (let i in arguments[0]) {
-        if (arguments[0].hasOwnProperty(i)) {
-          if (i === 'tag') {
-            audience[i] = this.buildAudience(arguments[0][i], i)
-          } else if (i === 'tag_and') {
-            audience[i] = this.buildAudience(arguments[0][i], i)
-          } else if (i === 'tag_not') {
-            audience[i] = this.buildAudience(arguments[0][i], i)
-          } else if (i === 'alias') {
-            audience[i] = this.buildAudience(arguments[0][i], i)
-          } else if (i === 'registration_id') {
-            audience[i] = this.buildAudience(arguments[0][i], i)
-          } else if (i === 'segment') {
-            audience[i] = arguments[0][i]
-          } else if (i === 'abtest') {
-            audience[i] = arguments[0][i]
-          } else {
-            throw new InvalidArgumentError("Invalid audience type '" + i + "'")
-          }
-        }
-      }
-    } else {
-      audience = {}
-      for (let i = 0; i < arguments.length; i++) {
-        if (VALID_DEVICE_TYPES.indexOf(arguments[i]) !== -1) {
-          if (audience.hasOwnProperty('registration_id')) {
-            throw new InvalidArgumentError('registration_id cannot be set with ' + arguments[i])
-          }
-          audience[arguments[i]] = ALL
-        } else if (typeof arguments[i] === 'string') {
-          if (audience.hasOwnProperty('alias')) {
-            throw new InvalidArgumentError('alias cannot be set with ' + arguments[i])
-          }
-          audience['alias'] = arguments[i]
-        } else if (typeof arguments[i] === 'number') {
-          if (audience.hasOwnProperty('registration_id')) {
-            throw new InvalidArgumentError('registration_id cannot be set with ' + arguments[i])
-          }
-          audience['registration_id'] = arguments[i].toString()
-        } else {
-          throw new InvalidArgumentError('Invalid audience at index ' + i)
-        }
-      }
-    }
+  setAudience(audience: 'all' | ValidDeviceType | ValidDeviceType[] | {
+    tag: any, tag_and: any, tag_not: any,
+    alias: any, registration_id: any,
+    segment: any, abtest: any,
+  }) {
     this.payload = JUtil.extend(this.payload, {
       'audience': audience
     })
@@ -532,21 +484,11 @@ export class PushPayload {
     return this
   }
 
-  setNotification() {
-    if (arguments.length < 1) {
-      throw new InvalidArgumentError('Invalid notification')
-    }
-    let notification: any = {}
-    let offset = 0
-    if (typeof arguments[0] === 'string') {
-      notification['alert'] = arguments[0]
-      offset = 1
-    }
-    for (; offset < arguments.length; offset++) {
-      if (typeof arguments[offset] !== 'object') {
-        throw new InvalidArgumentError('Invalid notification argument at index ' + offset)
-      }
-      notification = JUtil.extend(notification, arguments[offset])
+  setNotification(alert: string, ...payloads: object[]) {
+
+    let notification: any = { alert }
+    for (const payload of payloads) {
+      notification = JUtil.extend(notification, payload)
     }
     this.payload = JUtil.extend(this.payload, {
       'notification': notification

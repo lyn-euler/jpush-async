@@ -1,11 +1,11 @@
 import * as JUtil from './util'
 import * as JError from './jpush-error'
 
-export function buildAudience(args: any, title: string) {
+export function buildAudience(args: any, title: string): string[] {
     if (args.length < 1) {
         throw new JError.InvalidArgumentError('Should be set at least one ' + title)
     }
-    let payload: unknown[] = []
+    let payload: string[] = []
     let i
     for (i = 0; i < args.length; i++) {
         if (typeof args[i] === 'string') {
@@ -20,46 +20,46 @@ export function buildAudience(args: any, title: string) {
     }
     return payload
 }
-
-export function alias() {
+type AudienceType = string | number | (string | number)[]
+export function alias(...args: AudienceType[]) {
     return {
-        'alias': buildAudience(arguments, 'alias')
+        'alias': buildAudience(args, 'alias')
     }
 }
 
-export function tag() {
+export function tag(...args: AudienceType[]) {
     return {
-        'tag': buildAudience(arguments, 'tag')
+        'tag': buildAudience(args, 'tag')
     }
 }
 
-export function tag_and() {
+export function tag_and(...args: AudienceType[]) {
     return {
-        'tag_and': buildAudience(arguments, 'tag_and')
+        'tag_and': buildAudience(args, 'tag_and')
     }
 }
 
-export function tag_not() {
+export function tag_not(...args: AudienceType[]) {
     return {
-        'tag_not': buildAudience(arguments, 'tag_not')
+        'tag_not': buildAudience(args, 'tag_not')
     }
 }
 
-export function registration_id() {
+export function registration_id(...args: AudienceType[]) {
     return {
-        'registration_id': buildAudience(arguments, 'registration_id')
+        'registration_id': buildAudience(args, 'registration_id')
     }
 }
 
-export function segment() {
+export function segment(...args: AudienceType[]) {
     return {
-        'segment': buildAudience(arguments, 'segment')
+        'segment': buildAudience(args, 'segment')
     }
 }
 
-export function abtest() {
+export function abtest(...args: AudienceType[]) {
     return {
-        'abtest': buildAudience(arguments, 'abtest')
+        'abtest': buildAudience(args, 'abtest')
     }
 }
 
