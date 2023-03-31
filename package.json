@@ -47,5 +47,13 @@
 	"directories": {
 		"doc": "doc",
 		"test": "test"
-	}
+	},
+	"files": [
+		"LICENSE",
+		"README.md",
+		"package.json",
+		"src/",
+		"dist/",
+		"doc/"
+	]
 }
